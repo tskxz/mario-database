@@ -90,3 +90,4 @@ INSERT INTO character_actions (character_id, action_id) VALUES (2,2),(2,3),(2,4)
 INSERT INTO character_actions (character_id, action_id) VALUES (1,2),(1,3),(1,4);
 SELECT * from characters FULL JOIN more_info ON characters.character_id = more_info.character_id;
 SELECT * from characters FULL JOIN sounds ON characters.character_id = sounds.character_id;
+SELECT * from character_actions FULL JOIN characters ON character_actions.character_id = characters.character_id FULL JOIN actions ON character_actions.action_id = actions.action_id;
