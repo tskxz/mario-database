@@ -13,3 +13,7 @@ The capitalized words are keywords telling PostgreSQL what to do. The name of th
 Your new database is there. If you don't get a message after entering a command, it means it's incomplete and you likely forgot the semi-colon. You can just add it on the next line and press enter to finish the command. Create another database named second_database.
 
 > CREATE DATABASE second_database;
+
+You can connect to a database by entering \c database_name. You need to connect to add information. Connect to your second_database.
+
+> \c second_database
