@@ -48,3 +48,6 @@ ALTER TABLE more_info ADD COLUMN weight NUMERIC(4,1);
 ALTER TABLE more_info ADD COLUMN character_id INT REFERENCES characters(character_id);
 ALTER TABLE more_info ADD UNIQUE(character_id);
 ALTER TABLE more_info ALTER COLUMN character_id SET NOT NULL;
+SELECT character_id FROM characters;
+SELECT character_id, name FROM characters;
+INSERT INTO more_info (more_info_id, birthday, height, weight, character_id) VALUES (1, '1981-07-09', 155, 64.5, 1); 

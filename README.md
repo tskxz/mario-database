@@ -279,4 +279,30 @@ ALTER TABLE table_name ALTER COLUMN column_name SET NOT NULL;
 ```
 Add the NOT NULL constraint to your foreign key column.
 
+```sql
 ALTER TABLE more_info ALTER COLUMN character_id SET NOT NULL;
+```
+
+The structure is set, now you can add some rows. First, you need to know what character_id you need for the foreign key column. You have viewed all columns in a table with *. You can pick columns by putting in the column name instead of *. Use SELECT to view the character_id column from the characters table.
+> SELECT character_id FROM characters;
+
+That list of numbers doesn't really help. Use SELECT again to display both the character_id and name columns from the characters table. You can separate the column names with a comma to view both.
+SELECT character_id, name FROM characters;
+
+
+
+That's better. You can see Mario's id there. Here's some more info for him:
+
+birthday	height	weight
+1981-07-09	155	64.5
+
+Add a row to more_info with the above data for Mario using the INSERT INTO and VALUES keywords. Be sure to set his character_id when adding him. Also, DATE values need a string with the format: 'YYYY-MM-DD'.
+> INSERT INTO more_info (more_info_id, birthday, height, weight, character_id) VALUES (1, '1981-07-09', 155, 64.5, 1); 
+
+
+You can see Luigi's id there. Here's his info:
+
+birthday	height	weight
+1983-07-14	175	48.8
+Add a row in more_info for Luigi using the above info. Be sure to add his character_id as well.
+INSERT INTO more_info (more_info_id, birthday, height, weight, character_id) VALUES (2, '1983-07-14', 175, 48.8, 2); 
