@@ -68,3 +68,7 @@ ALTER TABLE sounds ADD COLUMN filename VARCHAR(40) NOT NULL UNIQUE;
 ALTER TABLE sounds ADD COLUMN character_id INT NOT NULL REFERENCES characters(character_id);
 INSERT INTO sounds (filename, character_id) VALUES ('its-a-me.wav', 1);
 INSERT INTO sounds (filename, character_id) VALUES ('yippee.wav', 1);
+INSERT INTO sounds (filename, character_id) VALUES ('oh-yeah.wav', 2);
+INSERT INTO sounds (filename, character_id) VALUES ('yay.wav', 3), ('woo-hoo.wav', 3);
+INSERT INTO sounds (filename, character_id) VALUES ('mm-hmm.wav', 3), ('yahoo.wav', 1);
+CREATE TABLE actions (action_id SERIAL PRIMARY KEY);

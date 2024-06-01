@@ -401,3 +401,19 @@ Add another row with a filename of yippee.wav. Use Mario's character_id again fo
 
 Add another row to sounds for Luigi named ha-ha.wav. Use his character_id this time. Take a look at the data in characters to find his id if you need to.
 > INSERT INTO sounds (filename, character_id) VALUES ('ha-ha.wav', 2);
+
+Add another row with a filename of oh-yeah.wav. This one is for Luigi as well so use his character_id again.
+> INSERT INTO sounds (filename, character_id) VALUES ('oh-yeah.wav', 2);
+
+Add two more rows for Peach sounds. The filenames are yay.wav and woo-hoo.wav. Don't forget her character_id. Try to do it with one command.
+> INSERT INTO sounds (filename, character_id) VALUES ('yay.wav', 3), ('woo-hoo.wav', 3);
+
+
+Add two more rows. The filenames are mm-hmm.wav and yahoo.wav. The first one is for Peach again, the second is for Mario, so use the correct foreign key values. Try to do it with one command.
+> INSERT INTO sounds (filename, character_id) VALUES ('mm-hmm.wav', 3), ('yahoo.wav', 1);
+
+Create another new table called actions. Give it a column named action_id that's a type of SERIAL, and make it the PRIMARY KEY. Try to create the table and add the column with one command.
+> CREATE TABLE actions (action_id SERIAL PRIMARY KEY);
+
+Add a column named action to your new table. Give it a type of VARCHAR that is a max length of 20 and has UNIQUE and NOT NULL constraints.
+ALTER TABLE actions ADD COLUMN actions VARCHAR(20) UNIQUE NOT NULL;
