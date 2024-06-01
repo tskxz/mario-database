@@ -45,3 +45,18 @@ Add a column to second_table named first_column. Give it a data type of INT. INT
 Use ALTER TABLE and ADD COLUMN to add another column to second_table named id that's a type of INT.
 
 > ALTER TABLE second_table ADD COLUMN id INT;
+
+Add another column to second_table named age. Give it a data type of INT.
+> ALTER TABLE second_table ADD COLUMN age INT;
+
+
+Those are some good looking columns. You will probably need to know how to remove them. Here's an example:
+
+```sql
+ALTER TABLE table_name DROP COLUMN column_name;
+```
+Drop your age column.
+> ALTER TABLE second_table DROP COLUMN age;
+
+Use the ALTER TABLE and DROP COLUMN keywords again to drop first_column.
+> ALTER TABLE second_table DROP COLUMN first_column;
