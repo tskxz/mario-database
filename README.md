@@ -25,3 +25,7 @@ CREATE TABLE table_name();
 Note that the parenthesis are needed for this one. It will create the table in the database you are connected to. Create a table named first_table in second_database.
 
 > CREATE TABLE first_table();
+
+Create another new table in this database. Give it a name of second_table.
+
+> CREATE TABLE second_table();
