@@ -305,4 +305,99 @@ You can see Luigi's id there. Here's his info:
 birthday	height	weight
 1983-07-14	175	48.8
 Add a row in more_info for Luigi using the above info. Be sure to add his character_id as well.
-INSERT INTO more_info (more_info_id, birthday, height, weight, character_id) VALUES (2, '1983-07-14', 175, 48.8, 2); 
+> INSERT INTO more_info (more_info_id, birthday, height, weight, character_id) VALUES (2, '1983-07-14', 175, 48.8, 2); 
+
+
+Here's the additional info for Peach:
+
+birthday	height	weight
+1985-10-18	173	52.2
+Add a row for Peach using the above info. Be sure to add her character_id as well.
+
+> INSERT INTO more_info (more_info_id, birthday, height, weight, character_id) VALUES (3, '1985-10-18', 173, 52.2, 3); 
+
+
+Toad is next. Instead of viewing all the rows to find his id, you can just view his row with a WHERE condition. You used several earlier to delete and update rows. You can use it to view rows as well. Here's an example:
+```sql
+SELECT columns FROM table_name WHERE condition;
+```
+A condition you used before was username='Samus'. Find Toad's id by viewing the character_id and name columns from characters for only his row.
+
+> SELECT character_id, name FROM characters WHERE name='Toad';
+
+
+Here's what Toad's info looks like:
+
+birthday	height	weight
+1950-01-10	66	35.6
+Add the above info for Toad. Be sure to add his character_id.
+
+> INSERT INTO more_info (more_info_id, birthday, height, weight, character_id) VALUES (4, '1950-01-10', 66, 35.6, 4); 
+
+Bowser is next. Find his id by viewing the character_id and name columns for only his row.
+> SELECT character_id, name FROM characters WHERE name='Bowser';
+
+Here's what Bowser's info looks like:
+
+birthday	height	weight
+1990-10-29	258	300
+Add the above info for Bowser. Don't forget to add his character_id.
+
+> INSERT INTO more_info (more_info_id, birthday, height, weight, character_id) VALUES (5, '1990-10-29', 258, 300, 5); 
+
+Daisy is next. Find her id by viewing the character_id and name columns for only her row.
+> SELECT character_id, name FROM characters WHERE name='Daisy';
+
+
+The info for Daisy looks like this:
+
+birthday	height	weight
+1989-07-31	NULL	NULL
+Add the above info for Daisy to more_info. Be sure to add her character_id as well. You can use NULL or simply not include the null columns when inserting.
+> INSERT INTO more_info (more_info_id, birthday, height, weight, character_id) VALUES (6, '1989-07-31', NULL, NULL ,6); 
+
+Yoshi is last. Find his id by viewing the character_id and name columns for only his row.
+> SELECT character_id, name FROM characters WHERE name='Yoshi';
+
+The info for Yoshi looks like this:
+
+birthday	height	weight
+1990-04-13	162	59.1
+Add the above info for Yoshi to more_info. Be sure to include his character_id.
+> INSERT INTO more_info (more_info_id, birthday, height, weight, character_id) VALUES (7, '1990-04-13', 162, 59.1 ,7); 
+
+There is something you can do to help out though. What units do the height and weight columns use? It's centimeters and kilograms, but nobody will know. Rename the height column to height_in_cm.
+> ALTER TABLE more_info RENAME COLUMN height TO height_in_cm;
+
+Rename the weight column to weight_in_kg.
+> ALTER TABLE more_info RENAME COLUMN weight TO weight_in_kg;
+
+Next, you will make a sounds table that holds filenames of sounds the characters make. You created your other tables similar to this:
+```sql
+CREATE TABLE table_name();
+```
+Inside those parenthesis you can put columns for a table so you don't need to add them with a separate command, like this:
+```
+CREATE TABLE table_name(column_name DATATYPE CONSTRAINTS);
+```
+Create a new table named sounds. Give it a column named sound_id of type SERIAL and a constraint of PRIMARY KEY.
+> CREATE TABLE sounds(sound_id SERIAL PRIMARY KEY);
+
+Add a column to it named filename. Make it a VARCHAR that has a max length of 40 and with constraints of NOT NULL and UNIQUE. You can put those constraints at the end of the query to add them all.
+> ALTER TABLE sounds ADD COLUMN filename VARCHAR(40) NOT NULL UNIQUE;
+
+You want to use character_id as a foreign key again. This will be a "one-to-many" relationship because one character will have many sounds, but no sound will have more than one character. Here's the example again:
+```sql
+ALTER TABLE table_name ADD COLUMN column_name DATATYPE CONSTRAINT REFERENCES referenced_table_name(referenced_column_name);
+```
+Add a column to sounds named character_id. Give it the properties INT, NOT NULL, and set it as a foreign key that references character_id from characters
+> ALTER TABLE sounds ADD COLUMN character_id INT NOT NULL REFERENCES characters(character_id);
+
+The first file is named its-a-me.wav. Insert it into the sounds table with Mario's id as the character_id.
+> INSERT INTO sounds (filename, character_id) VALUES ('its-a-me.wav', 1);
+
+Add another row with a filename of yippee.wav. Use Mario's character_id again for the foreign key value.
+> INSERT INTO sounds (filename, character_id) VALUES ('yippee.wav', 1);
+
+Add another row to sounds for Luigi named ha-ha.wav. Use his character_id this time. Take a look at the data in characters to find his id if you need to.
+> INSERT INTO sounds (filename, character_id) VALUES ('ha-ha.wav', 2);
