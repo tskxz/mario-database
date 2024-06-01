@@ -416,4 +416,87 @@ Create another new table called actions. Give it a column named action_id that's
 > CREATE TABLE actions (action_id SERIAL PRIMARY KEY);
 
 Add a column named action to your new table. Give it a type of VARCHAR that is a max length of 20 and has UNIQUE and NOT NULL constraints.
-ALTER TABLE actions ADD COLUMN actions VARCHAR(20) UNIQUE NOT NULL;
+> ALTER TABLE actions ADD COLUMN action VARCHAR(20) UNIQUE NOT NULL;
+
+The actions table won't have any foreign keys. It's going to have a "many-to-many" relationship with the characters table. This is because many of the characters can perform many actions. You will see why you don't need a foreign key later. Insert a row into the actions table. Give it an action of run.
+> INSERT INTO actions (action) VALUES ('run');
+
+Insert another row into the actions table. Give it an action of jump
+> INSERT INTO actions (action) VALUES ('jump');
+
+Add another action row with an action of duck.
+> INSERT INTO actions (action) VALUES ('duck');
+
+Create a new table called character_actions. It will describe what actions each character can perform.
+> CREATE TABLE character_actions();
+
+Your junction table will use the primary keys from the characters and actions tables as foreign keys to create the relationship. Add a column named character_id to your junction table. Give it the type of INT and constraint of NOT NULL.
+> ALTER TABLE character_actions ADD COLUMN character_id INT NOT NULL;
+
+The foreign keys you set before were added when you created the column. You can set an existing column as a foreign key like this:
+```sql
+ALTER TABLE table_name ADD FOREIGN KEY(column_name) REFERENCES referenced_table(referenced_column);
+```
+Set the character_id column you just added as a foreign key that references the character_id from the characters table.
+> ALTER TABLE character_actions ADD FOREIGN KEY(character_id) REFERENCES characters(character_id);
+
+Add another column to character_actions named action_id. Give it a type of INT and constraint of NOT NULL.
+> ALTER TABLE character_actions ADD COLUMN action_id INT NOT NULL;
+
+
+This will be a foreign key as well. Set the action_id column you just added as a foreign key that references the action_id column from the actions table.
+> ALTER TABLE character_actions ADD FOREIGN KEY(action_id) REFERENCES actions(action_id);
+
+
+Every table should have a primary key. Your previous tables had a single column as a primary key. This one will be different. You can create a primary key from two columns, known as a composite primary key. Here's an example:
+```sql
+ALTER TABLE table_name ADD PRIMARY KEY(column1, column2);
+```
+Use character_id and action_id to create a composite primary key for this table.
+> ALTER TABLE character_actions ADD PRIMARY KEY(character_id, action_id);
+
+Insert three rows into character_actions for all the actions Yoshi can perform. He can perform all of them in the actions table. View the data in the characters and actions table to find the correct id's for the information.
+> INSERT INTO character_actions (character_id, action_id) VALUES (7,2),(7,3),(7,4);
+
+
+Add three more rows into character_actions for all of Daisy's actions. She can perform all of the actions, as well.
+> INSERT INTO character_actions (character_id, action_id) VALUES (6,2),(6,3),(6,4);
+
+Bowser can perform all the actions. Add three rows to the table for him.
+> INSERT INTO character_actions (character_id, action_id) VALUES (5,2),(5,3),(5,4);
+
+Next is Toad. Add three more rows for his actions.
+> INSERT INTO character_actions (character_id, action_id) VALUES (4,2),(4,3),(4,4);
+
+You guessed it. Peach can perform all the actions as well, so add three more rows for her.
+> INSERT INTO character_actions (character_id, action_id) VALUES (3,2),(3,3),(3,4);
+
+Add three more rows for Luigi's actions.
+> INSERT INTO character_actions (character_id, action_id) VALUES (2,2),(2,3),(2,4);
+
+Last is Mario, add three rows for his actions.
+> INSERT INTO character_actions (character_id, action_id) VALUES (1,2),(1,3),(1,4);
+
+That was a lot of work. View all the data in character_actions to see the rows you ended up with.
+> SELECT * FROM character_actions;
+
+You can see the character_id there so you just need to find the matching id in the characters table to find out who it's for. Or... You added that as a foreign key, that means you can get all the data from both tables with a JOIN command:
+```sql
+SELECT columns FROM table_1 FULL JOIN table_2 ON table_1.primary_key_column = table_2.foreign_key_column;
+```
+Enter a join command to see all the info from both tables. The two tables are characters and more_info. The columns are the character_id column from both tables since those are the linked keys.
+
+> SELECT * from characters FULL JOIN more_info ON characters.character_id = more_info.character_id;
+
+Now you can see all the info from both tables. If you recall, that's a "one-to-one" relationship. So there's one row in each table that matches a row from the other. Use another JOIN command to view the characters and sounds tables together. They both use the character_id column for their keys as well.
+> SELECT * from characters FULL JOIN sounds ON characters.character_id = sounds.character_id;
+
+This shows the "one-to-many" relationship. You can see that some of the characters have more than one row because they have many sounds. How can you see all the info from the characters, actions, and character_actions tables? Here's an example that joins three tables:
+```SQL
+SELECT columns FROM junction_table
+FULL JOIN table_1 ON junction_table.foreign_key_column = table_1.primary_key_column
+FULL JOIN table_2 ON junction_table.foreign_key_column = table_2.primary_key_column;
+```
+Congratulations on making it this far. This is the last step. View all the data from characters, actions, and character_actions by joining all three tables. When you see the data, be sure to check the "many-to_many" relationship. Many characters will have many actions.
+
+> select * from character_actions FULL JOIN characters ON character_actions.character_id = characters.character_id FULL JOIN actions ON character_actions.action_id = actions.action_id;
