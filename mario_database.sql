@@ -8,4 +8,12 @@ ALTER TABLE second_table ADD COLUMN id INT;
 ALTER TABLE second_table ADD COLUMN age INT;
 ALTER TABLE second_table DROP COLUMN age;
 ALTER TABLE second_table DROP COLUMN first_column;
-
+ALTER TABLE second_table ADD COLUMN name VARCHAR(30);
+ALTER TABLE second_table RENAME COLUMN name TO username;
+INSERT INTO second_table(id, username) VALUES (1, 'Samus');
+SELECT * FROM second_table;
+INSERT INTO second_table(id, username) VALUES (2, 'Mario');
+INSERT INTO second_table(id, username) VALUES (3, 'Luigi');
+DELETE FROM second_table WHERE username='Luigi';
+DELETE FROM second_table WHERE username='Mario';
+DELETE FROM second_table WHERE username='Samus';
