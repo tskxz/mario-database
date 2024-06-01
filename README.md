@@ -29,3 +29,19 @@ Note that the parenthesis are needed for this one. It will create the table in t
 Create another new table in this database. Give it a name of second_table.
 
 > CREATE TABLE second_table();
+
+You can view more details about a table by adding the table name after the display command like this: `\d table_name`. View more details about your second_table.
+
+> \d second_table
+
+Tables need columns to describe the data in them, yours doesn't have any yet. Here's an example of how to add one:
+```sql
+ALTER TABLE table_name ADD COLUMN column_name DATATYPE;
+```
+Add a column to second_table named first_column. Give it a data type of INT. INT stands for integer. Don't forget the semi-colon. 😄
+
+> ALTER TABLE second_table ADD COLUMN first_column INT;
+
+Use ALTER TABLE and ADD COLUMN to add another column to second_table named id that's a type of INT.
+
+> ALTER TABLE second_table ADD COLUMN id INT;
