@@ -265,5 +265,18 @@ That's quite the command. In the more_info table, create a character_id column. 
 
 > ALTER TABLE more_info ADD COLUMN character_id INT REFERENCES characters(character_id);
 
+There's your foreign key at the bottom. These tables have a "one-to-one" relationship. One row in the characters table will be related to exactly one row in more_info and vice versa. Enforce that by adding the UNIQUE constraint to your foreign key. Here's an example:
+```sql
+ALTER TABLE table_name ADD UNIQUE(column_name);
+```
+Add the UNIQUE constraint to the column you just added.
 
+> ALTER TABLE more_info ADD UNIQUE(character_id);
 
+The column should also be NOT NULL since you don't want to have a row that is for nobody. Here's an example:
+```sql
+ALTER TABLE table_name ALTER COLUMN column_name SET NOT NULL;
+```
+Add the NOT NULL constraint to your foreign key column.
+
+ALTER TABLE more_info ALTER COLUMN character_id SET NOT NULL;
