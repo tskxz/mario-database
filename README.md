@@ -115,3 +115,155 @@ It's gone. You can scrap all this for the new database. Delete Mario from second
 Only one more row should remain. Delete Samus from second_table.
 
 > DELETE FROM second_table WHERE username='Samus';
+
+There's two columns. You won't need either of them for the Mario database. Alter the table second_table and drop the column `username`.
+> ALTER TABLE second_table DROP COLUMN username;
+
+Next, drop the id column.
+> ALTER TABLE second_table DROP COLUMN id;
+
+Still two. You won't need either of those for the new database either. Drop second_table from your database. Here's an example:
+```sql
+DROP TABLE table_name;
+```
+> DROP TABLE second_table;
+
+Next, drop first_table from the database.
+> DROP TABLE first_table;
+
+Rename first_database to mario_database. You can rename a database like this:
+```sql
+ALTER DATABASE database_name RENAME TO new_database_name;
+```
+> ALTER DATABASE first_database RENAME TO mario_database;
+
+Now that you aren't connected to second_database, you can drop it. Use the `DROP DATABASE` keywords to do that.
+
+> DROP DATABASE second_database;
+
+Create a new table named characters, it will hold some basic information about Mario characters.
+
+> CREATE TABLE characters();
+
+Next, you can add some columns to the table. Add a column named character_id to your new table that is a type of SERIAL.
+> ALTER TABLE characters ADD COLUMN character_id SERIAL;
+
+The SERIAL type will make your column an INT with a NOT NULL constraint, and automatically increment the integer when a new row is added. View the details of the characters table to see what SERIAL did for you.
+> /d characters
+
+Add a column to characters called name. Give it a data type of VARCHAR(30), and a constraint of `NOT NULL`. Add a constraint by putting it right after the data type.
+> ALTER TABLE characters ADD COLUMN name VARCHAR(30) NOT NULL;
+
+You can make another column for where they are from. Add another column named homeland. Give it a data type of VARCHAR that has a max length of 60.
+> ALTER TABLE characters ADD COLUMN homeland VARCHAR(60);
+
+
+Video game characters are quite colorful. Add one more column named favorite_color. Make it a VARCHAR with a max length of 30.
+> ALTER TABLE characters ADD COLUMN favorite_color VARCHAR(30);
+
+You are ready to start adding some rows. First is Mario. Earlier, you used this command to add a row:
+```sql
+INSERT INTO second_table(id, username) VALUES(1, 'Samus');
+```
+
+The first parenthesis is for the column names, you can put as many columns as you want. The second parenthesis is for the values for those columns. Add a row to your table, give it a `name` of `Mario`, a `homeland` of `Mushroom Kingdom`, and a `favorite_color` of `Red`. Make sure to use single quotes where needed.
+
+> INSERT INTO characters(character_id, name, homeland, favorite_color) VALUES (1, 'Mario', 'Mushroom Kingdom', 'Red');
+
+Add another row for Luigi. Give it a name of Luigi, a homeland of Mushroom Kingdom, and a favorite_color of Green.
+> INSERT INTO characters(character_id, name, homeland, favorite_color) VALUES (2, 'Luigi', 'Mushroom Kingdom', 'Green');
+
+Add another row for Peach. Give her the values: Peach, Mushroom Kingdom, and Pink.
+> INSERT INTO characters(character_id, name, homeland, favorite_color) VALUES (3, 'Peach', 'Mushroom Kingdom', 'Pink');
+
+Adding rows one at a time is quite tedious. Here's an example of how you could have added the previous three rows at once:
+```sql
+INSERT INTO characters(name, homeland, favorite_color)
+VALUES('Mario', 'Mushroom Kingdom', 'Red'),
+('Luigi', 'Mushroom Kingdom', 'Green'),
+('Peach', 'Mushroom Kingdom', 'Pink');
+```
+Add two more rows. Give the first one the values: Toadstool, Mushroom Kingdom, and Red. Give the second one: Bowser, Mushroom Kingdom, and Green. Try to add them with one command.
+> INSERT INTO characters(character_id, name, homeland, favorite_color) VALUES (4, 'Toadstool', 'Mushroom Kingdom', 'Red'), (5, 'Bowser', 'Mushroom Kingdom', 'Green');
+
+If you don't get a message after a command, it is likely incomplete. This is because you can put a command on multiple lines. Add two more rows. Give the first one the values: Daisy, Sarasaland, and Yellow. The second: Yoshi, Dinosaur Land, and Green. Try to do it with one command.
+> INSERT INTO characters(character_id, name, homeland, favorite_color) VALUES (5, 'Daisy', 'Sarasaland', 'Yellow'), (6, 'Yoshi', 'Dinosaur Land', 'Green');
+
+It looks good, but there's a few mistakes. You can change a value like this:
+
+```sql
+UPDATE table_name SET column_name=new_value WHERE condition;
+```
+You used username='Samus' as a condition earlier. SET Daisy's favorite_color to Orange. You can use the condition name='Daisy' to change her row.
+
+> UPDATE characters SET favorite_color='Orange' WHERE name='Daisy';
+
+Toadstool's name is wrong as well, it's actually Toad. Use UPDATE to SET his name to Toad. Use the condition favorite_color='Red'.
+> UPDATE characters SET name='Toad' WHERE favorite_color='Red';
+
+Using favorite_color='Red' was not a good idea. Mario's name changed to Toad because he likes red, and now there's two rows that are the same. Well, almost. Only the character_id is different. You will have to use that to change it back to Mario. Use UPDATE to set the name to Mario for the row with the lowest character_id
+> UPDATE characters SET name='Mario' WHERE character_id = 1;
+
+Toad's favorite color is wrong. He likes blue. Change Toad's favorite color to Blue. Use whatever condition you want, but don't change any of the other rows.
+> UPDATE characters SET favorite_color='Blue' WHERE name='Toad';
+
+Bowser's favorite_color is wrong. He likes Yellow. Why don't you update it without changing any of the other rows?
+> UPDATE characters SET favorite_color='Yellow' WHERE name='Bowser';
+
+Bowser's homeland is wrong as well. He's from the Koopa Kingdom. Why don't you change it to that without changing any other rows?
+> UPDATE characters SET homeland='Koopa Kingdom' WHERE name='Bowser';
+
+
+View all the data, but put it in order by character_id.
+```sql
+SELECT columns FROM table_name ORDER BY column_name;
+```
+
+> SELECT * FROM characters ORDER BY character_id;
+
+It looks good. Next, you are going to add a primary key. It's a column that uniquely identifies each row in the table. Here's an example of how to set a PRIMARY KEY:
+```sql
+ALTER TABLE table_name ADD PRIMARY KEY(column_name);
+```
+The name column is pretty unique, why don't you set that as the primary key for this table.
+
+> ALTER TABLE characters ADD PRIMARY KEY(name);
+
+You can see the key for your name column at the bottom. It would have been better to use character_id for the primary key. Here's an example of how to drop a constraint:
+```sql
+ALTER TABLE table_name DROP CONSTRAINT constraint_name;
+```
+Drop the primary key on the name column. You can see the constraint name is characters_pkey.
+ALTER TABLE characters DROP CONSTRAINT characters_pkey;
+
+It's gone. Set the primary key again, but use the character_id column this time.
+> ALTER TABLE characters ADD PRIMARY KEY(character_id);
+
+The table looks complete for now. Next, create a new table named more_info for some extra info about the characters.
+> CREATE TABLE more_info();
+
+Add a column to your new table named more_info_id. Make it a type of SERIAL.
+> ALTER TABLE more_info ADD COLUMN more_info_id SERIAL;
+
+Set your new column as the primary key for this table.
+> ALTER TABLE more_info ADD PRIMARY KEY(more_info_id);
+
+Add another column to more_info named birthday. Give it a data type of DATE.
+> ALTER TABLE more_info ADD COLUMN birthday DATE;
+
+Add a height column to more_info that's a type of INT.
+> ALTER TABLE more_info ADD COLUMN height INT;
+
+Add a weight column. Give it a type of NUMERIC(4, 1). That data type is for decimals. NUMERIC(4, 1) has up to four digits and one of them has to be to the right of the decimal.
+> ALTER TABLE more_info ADD COLUMN weight NUMERIC(4,1);
+
+There’s your four columns and the primary key you created at the bottom. To know what row is for a character, you need to set a foreign key so you can relate rows from this table to rows from your characters table. Here's an example that creates a column as a foreign key:
+```sql
+ALTER TABLE table_name ADD COLUMN column_name DATATYPE REFERENCES referenced_table_name(referenced_column_name);
+```
+That's quite the command. In the more_info table, create a character_id column. Make it an INT and a foreign key that references the character_id column from the characters table. Good luck.
+
+> ALTER TABLE more_info ADD COLUMN character_id INT REFERENCES characters(character_id);
+
+
+
