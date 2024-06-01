@@ -17,3 +17,11 @@ Your new database is there. If you don't get a message after entering a command,
 You can connect to a database by entering \c database_name. You need to connect to add information. Connect to your second_database.
 
 > \c second_database
+
+Looks like there's no tables or relations yet. Similar to how you created a database, you can create a table like this:
+```sql
+CREATE TABLE table_name();
+```
+Note that the parenthesis are needed for this one. It will create the table in the database you are connected to. Create a table named first_table in second_database.
+
+> CREATE TABLE first_table();
